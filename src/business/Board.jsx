@@ -70,6 +70,11 @@ function detectGroups(board) {
           console.log(
             `Detected a group of ${cells.length} ${board[i][j].className} cells`,
           );
+
+          // Remove the cells from the board
+          cells.forEach((cell) => {
+            board[cell.i][cell.j] = { occupied: false, className: '' };
+          });
         }
       }
     }
@@ -152,14 +157,22 @@ export const hasCollision = ({ board, position, shape }) => {
     const row = y + position.row;
 
     for (let x = 0; x < shape[y].length; x++) {
-      if (shape[y][x]) {
+      if (shape[y][x] !== 0) {
         const column = x + position.column;
 
         if (
-          board.rows[row] &&
-          board.rows[row][column] &&
-          board.rows[row][column].occupied
+          column < 0 ||
+          column >= board.size.columns ||
+          row >= board.size.rows
         ) {
+          return true;
+        }
+
+        if (row < 0) {
+          continue;
+        }
+
+        if (board.rows[row][column].occupied) {
           return true;
         }
       }
@@ -174,11 +187,16 @@ export const isWithinBoard = ({ board, position, shape }) => {
     const row = y + position.row;
 
     for (let x = 0; x < shape[y].length; x++) {
-      if (shape[y][x]) {
+      if (shape[y][x] !== 0) {
         const column = x + position.column;
-        const isValidPosition = board.rows[row] && board.rows[row][column];
 
-        if (!isValidPosition) return false;
+        if (
+          column < 0 ||
+          column >= board.size.columns ||
+          row >= board.size.rows
+        ) {
+          return false;
+        }
       }
     }
   }
