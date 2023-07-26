@@ -70,7 +70,7 @@ const attemptMovement = ({ board, action, player, setPlayer, setGameOver }) => {
   const { collided, nextPosition } = movePlayer({
     delta,
     position: player.position,
-    shape: player.puyo.shape,
+    shape: player.puyo.top.shape.concat(player.puyo.bottom.shape),
     board,
   });
 
