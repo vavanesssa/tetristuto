@@ -1,6 +1,15 @@
 import { defaultCell } from '/src/business/Cell';
 import { movePlayer } from '/src/business/PlayerController';
 import { transferToBoard } from '/src/business/Puyos';
+import explodeSfx from '../sounds/explode.mp3';
+const explodeAudio = new Audio(explodeSfx);
+
+import clickSfx from '../sounds/click.mp3';
+const clickAudio = new Audio(clickSfx);
+
+export const playSound = (file) => {
+  file.play();
+};
 
 export const buildBoard = ({ rows, columns }) => {
   const builtRows = Array.from({ length: rows }, () =>
@@ -40,6 +49,7 @@ const movePuyoDown = (board, i, j) => {
   const temp = board[i][j];
   board[i][j] = board[i + 1][j];
   board[i + 1][j] = temp;
+  playSound(clickAudio);
 };
 
 const applyGravity = (board) => {
@@ -92,7 +102,7 @@ function detectGroups(board) {
       if (board[i][j].occupied && !visited[i][j]) {
         const cells = dfs(i, j, board[i][j].className);
         if (cells.length >= 4) {
-          // Remove the cells from the board
+          playSound(explodeAudio);
           cells.forEach((cell) => {
             board[cell.i][cell.j] = { occupied: false, className: '' };
           });
