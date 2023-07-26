@@ -1,11 +1,11 @@
-import { hasCollision, isWithinBoard } from "/src/business/Board";
-import { rotate } from "/src/business/Tetrominoes";
-import { Action } from "/src/business/Input";
+import { hasCollision, isWithinBoard } from '/src/business/Board';
+import { rotate } from '/src/business/Puyos';
+import { Action } from '/src/business/Input';
 
 const attemptRotation = ({ board, player, setPlayer }) => {
   const shape = rotate({
-    piece: player.tetromino.shape,
-    direction: 1
+    piece: player.puyo.shape,
+    direction: 1,
   });
 
   const position = player.position;
@@ -16,10 +16,10 @@ const attemptRotation = ({ board, player, setPlayer }) => {
   if (isValidRotation) {
     setPlayer({
       ...player,
-      tetromino: {
-        ...player.tetromino,
-        shape
-      }
+      puyo: {
+        ...player.puyo,
+        shape,
+      },
     });
   } else {
     return false;
@@ -29,19 +29,19 @@ const attemptRotation = ({ board, player, setPlayer }) => {
 export const movePlayer = ({ delta, position, shape, board }) => {
   const desiredNextPosition = {
     row: position.row + delta.row,
-    column: position.column + delta.column
+    column: position.column + delta.column,
   };
 
   const collided = hasCollision({
     board,
     position: desiredNextPosition,
-    shape
+    shape,
   });
 
   const isOnBoard = isWithinBoard({
     board,
     position: desiredNextPosition,
-    shape
+    shape,
   });
 
   const preventMove = !isOnBoard || (isOnBoard && collided);
@@ -70,8 +70,8 @@ const attemptMovement = ({ board, action, player, setPlayer, setGameOver }) => {
   const { collided, nextPosition } = movePlayer({
     delta,
     position: player.position,
-    shape: player.tetromino.shape,
-    board
+    shape: player.puyo.shape,
+    board,
   });
 
   // Did we collide immediately? If so, game over, man!
@@ -84,7 +84,7 @@ const attemptMovement = ({ board, action, player, setPlayer, setGameOver }) => {
     ...player,
     collided,
     isFastDropping,
-    position: nextPosition
+    position: nextPosition,
   });
 };
 
@@ -93,7 +93,7 @@ export const playerController = ({
   board,
   player,
   setPlayer,
-  setGameOver
+  setGameOver,
 }) => {
   if (!action) return;
 

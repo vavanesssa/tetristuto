@@ -1,13 +1,13 @@
-import "./Preview.css";
-import React from "react";
+import './Preview.css';
+import React from 'react';
 
-import { buildBoard } from "/src/business/Board";
-import { transferToBoard } from "/src/business/Tetrominoes";
+import { buildBoard } from '/src/business/Board';
+import { transferToBoard } from '/src/business/Puyos';
 
-import BoardCell from "/src/components/BoardCell";
+import BoardCell from '/src/components/BoardCell';
 
-const Preview = ({ tetromino, index }) => {
-  const { shape, className } = tetromino;
+const Preview = ({ puyo, index }) => {
+  const { shape, className } = puyo;
 
   const board = buildBoard({ rows: 4, columns: 4 });
 
@@ -18,7 +18,7 @@ const Preview = ({ tetromino, index }) => {
     isOccupied: false,
     position: { row: 0, column: 0 },
     rows: board.rows,
-    shape
+    shape,
   });
 
   return (
@@ -27,7 +27,7 @@ const Preview = ({ tetromino, index }) => {
         {board.rows.map((row, y) =>
           row.map((cell, x) => (
             <BoardCell key={x * board.size.columns + x} cell={cell} />
-          ))
+          )),
         )}
       </div>
     </div>

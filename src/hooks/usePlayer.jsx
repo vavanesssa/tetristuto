@@ -1,25 +1,25 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
-import { randomTetromino } from "/src/business/Tetrominoes";
+import { randomPuyo } from '/src/business/Puyos';
 
 const buildPlayer = (previous) => {
-  let tetrominoes;
+  let puyos;
 
   if (previous) {
-    tetrominoes = [...previous.tetrominoes];
-    tetrominoes.unshift(randomTetromino());
+    puyos = [...previous.puyos];
+    puyos.unshift(randomPuyo());
   } else {
-    tetrominoes = Array(5)
+    puyos = Array(5)
       .fill(0)
-      .map((_) => randomTetromino());
+      .map((_) => randomPuyo());
   }
 
   return {
     collided: false,
     isFastDropping: false,
     position: { row: 0, column: 4 },
-    tetrominoes,
-    tetromino: tetrominoes.pop()
+    puyos,
+    puyo: puyos.pop(),
   };
 };
 

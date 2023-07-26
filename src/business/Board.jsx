@@ -1,15 +1,15 @@
-import { defaultCell } from "/src/business/Cell";
-import { movePlayer } from "/src/business/PlayerController";
-import { transferToBoard } from "/src/business/Tetrominoes";
+import { defaultCell } from '/src/business/Cell';
+import { movePlayer } from '/src/business/PlayerController';
+import { transferToBoard } from '/src/business/Puyos';
 
 export const buildBoard = ({ rows, columns }) => {
   const builtRows = Array.from({ length: rows }, () =>
-    Array.from({ length: columns }, () => ({ ...defaultCell }))
+    Array.from({ length: columns }, () => ({ ...defaultCell })),
   );
 
   return {
     rows: builtRows,
-    size: { rows, columns }
+    size: { rows, columns },
   };
 };
 
@@ -33,42 +33,40 @@ const findDropPosition = ({ board, position, shape }) => {
 };
 
 export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
-  const { tetromino, position } = player;
+  const { puyo, position } = player;
 
   // Copy and clear spaces used by pieces that
   // hadn't collided and occupied spaces permanently
   let rows = board.rows.map((row) =>
-    row.map((cell) => (cell.occupied ? cell : { ...defaultCell }))
+    row.map((cell) => (cell.occupied ? cell : { ...defaultCell })),
   );
 
   // Drop position
   const dropPosition = findDropPosition({
     board,
     position,
-    shape: tetromino.shape
+    shape: puyo.shape,
   });
 
   // Place ghost
-  const className = `${tetromino.className} ${
-    player.isFastDropping ? "" : "ghost"
-  }`;
+  const className = `${puyo.className} ${player.isFastDropping ? '' : 'ghost'}`;
   rows = transferToBoard({
     className,
     isOccupied: player.isFastDropping,
     position: dropPosition,
     rows,
-    shape: tetromino.shape
+    shape: puyo.shape,
   });
 
   // Place the piece.
   // If it collided, mark the board cells as collided
   if (!player.isFastDropping) {
     rows = transferToBoard({
-      className: tetromino.className,
+      className: puyo.className,
       isOccupied: player.collided,
       position,
       rows,
-      shape: tetromino.shape
+      shape: puyo.shape,
     });
   }
 
@@ -98,7 +96,7 @@ export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
   // Return the next board
   return {
     rows,
-    size: { ...board.size }
+    size: { ...board.size },
   };
 };
 
