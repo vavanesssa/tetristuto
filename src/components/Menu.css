@@ -7,10 +7,27 @@
 }
 
 .Button {
+  background: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
   padding: 40px 80px;
   font-size: 2em;
-  border-radius: 20px;
+  border-radius: 0px;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 60px;
-  cursor: pointer;
+  cursor:pointer;
+  transition: all 0.3s ease;
+  color:white;
+  border-radius:10px;
+}
+
+.Button:hover {
+ transform: scale(0.9);
+}
+
+.Button:active {
+  transform: scale(0.8);
+}
+
+
+
+.styles_wrapper {
+  overflow: visible !important;
 }

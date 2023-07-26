@@ -109,7 +109,7 @@ function detectGroups(board) {
   }
 }
 
-export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
+export const nextBoard = ({ board, player, resetPlayer }) => {
   const { puyo, position } = player;
 
   // Copy and clear spaces used by pieces that
@@ -145,24 +145,6 @@ export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
       rows,
       shape: puyo.shape,
     });
-  }
-
-  // Check for cleared lines
-  const blankRow = rows[0].map((_) => ({ ...defaultCell }));
-  let linesCleared = 0;
-  rows = rows.reduce((acc, row) => {
-    if (row.every((column) => column.occupied)) {
-      linesCleared++;
-      acc.unshift([...blankRow]);
-    } else {
-      acc.push(row);
-    }
-
-    return acc;
-  }, []);
-
-  if (linesCleared > 0) {
-    addLinesCleared(linesCleared);
   }
 
   // If we collided, reset the player!
