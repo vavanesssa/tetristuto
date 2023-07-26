@@ -1,62 +1,34 @@
-const className = "tetromino";
+const className = 'tetromino';
 
 export const TETROMINOES = {
   I: {
-    shape: [
-      [0, 1, 0, 0],
-      [0, 1, 0, 0],
-      [0, 1, 0, 0],
-      [0, 1, 0, 0]
-    ],
-    className: `${className} ${className}__i`
+    shape: [[1], [1]],
+    className: `${className} ${className}__i`,
   },
   J: {
-    shape: [
-      [0, 1, 0],
-      [0, 1, 0],
-      [1, 1, 0]
-    ],
-    className: `${className} ${className}__j`
+    shape: [[1], [1]],
+    className: `${className} ${className}__j`,
   },
   L: {
-    shape: [
-      [0, 1, 0],
-      [0, 1, 0],
-      [0, 1, 1]
-    ],
-    className: `${className} ${className}__l`
+    shape: [[1], [1]],
+    className: `${className} ${className}__l`,
   },
   O: {
-    shape: [
-      [1, 1],
-      [1, 1]
-    ],
-    className: `${className} ${className}__o`
+    shape: [[1], [1]],
+    className: `${className} ${className}__o`,
   },
   S: {
-    shape: [
-      [0, 1, 1],
-      [1, 1, 0],
-      [0, 0, 0]
-    ],
-    className: `${className} ${className}__s`
+    shape: [[1], [1]],
+    className: `${className} ${className}__s`,
   },
   T: {
-    shape: [
-      [1, 1, 1],
-      [0, 1, 0],
-      [0, 0, 0]
-    ],
-    className: `${className} ${className}__t`
+    shape: [[1], [1]],
+    className: `${className} ${className}__t`,
   },
   Z: {
-    shape: [
-      [1, 1, 0],
-      [0, 1, 1],
-      [0, 0, 0]
-    ],
-    className: `${className} ${className}__z`
-  }
+    shape: [[1], [1]],
+    className: `${className} ${className}__z`,
+  },
 };
 
 export const randomTetromino = () => {
@@ -69,7 +41,7 @@ export const randomTetromino = () => {
 export const rotate = ({ piece, direction }) => {
   // Transpose rows and columns
   const newPiece = piece.map((_, index) =>
-    piece.map((column) => column[index])
+    piece.map((column) => column[index]),
   );
 
   // Reverse rows to get a rotated matrix
@@ -83,7 +55,7 @@ export const transferToBoard = ({
   isOccupied,
   position,
   rows,
-  shape
+  shape,
 }) => {
   shape.forEach((row, y) => {
     row.forEach((cell, x) => {

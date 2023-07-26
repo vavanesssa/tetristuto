@@ -1,25 +1,28 @@
-import "./GameController.css";
+import './GameController.css';
 
-import { Action, actionForKey, actionIsDrop } from "/src/business/Input";
-import { playerController } from "/src/business/PlayerController";
+import { Action, actionForKey, actionIsDrop } from '/src/business/Input';
+import { playerController } from '/src/business/PlayerController';
 
-import { useDropTime } from "/src/hooks/useDropTime";
-import { useInterval } from "/src/hooks/useInterval";
+import { useDropTime } from '/src/hooks/useDropTime';
+import { useInterval } from '/src/hooks/useInterval';
+import { useRef } from 'react';
 
 const GameController = ({
   board,
   gameStats,
   player,
   setGameOver,
-  setPlayer
+  setPlayer,
 }) => {
   const [dropTime, pauseDropTime, resumeDropTime] = useDropTime({
-    gameStats
+    gameStats,
   });
 
   useInterval(() => {
     handleInput({ action: Action.SlowDrop });
   }, dropTime);
+
+  const inputRef = useRef(null);
 
   const onKeyUp = ({ code }) => {
     const action = actionForKey(code);
@@ -52,16 +55,22 @@ const GameController = ({
       board,
       player,
       setPlayer,
-      setGameOver
+      setGameOver,
     });
+  };
+
+  const handleBlur = () => {
+    inputRef.current.focus();
   };
 
   return (
     <input
+      ref={inputRef}
       className="GameController"
       type="text"
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
+      onBlur={handleBlur}
       autoFocus
     />
   );
