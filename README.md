@@ -1,2 +1,2 @@
-# tetristuto
+# Puyotuto
 Created with CodeSandbox

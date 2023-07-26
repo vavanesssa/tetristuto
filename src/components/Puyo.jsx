@@ -1,4 +1,4 @@
-import './Tetris.css';
+import './Puyo.css';
 
 import Board from '/src/components/Board';
 import GameController from '/src/components/GameController';
@@ -9,7 +9,7 @@ import { useBoard } from '/src/hooks/useBoard';
 import { useGameStats } from '/src/hooks/useGameStats';
 import { usePlayer } from '/src/hooks/usePlayer';
 
-const Tetris = ({ rows, columns, setGameOver }) => {
+const Puyo = ({ rows, columns, setGameOver }) => {
   const [gameStats, addLinesCleared] = useGameStats();
   const [player, setPlayer, resetPlayer] = usePlayer();
   const [board, setBoard] = useBoard({
@@ -21,7 +21,7 @@ const Tetris = ({ rows, columns, setGameOver }) => {
   });
 
   return (
-    <div className="Tetris">
+    <div className="Puyo">
       <Board board={board} />
       <GameStats gameStats={gameStats} />
       <Previews puyos={player.puyos} />
@@ -36,4 +36,4 @@ const Tetris = ({ rows, columns, setGameOver }) => {
   );
 };
 
-export default Tetris;
+export default Puyo;

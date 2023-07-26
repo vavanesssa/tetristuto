@@ -1,7 +1,7 @@
-import Menu from "/src/components/Menu";
-import Tetris from "/src/components/Tetris";
+import Menu from '/src/components/Menu';
+import Puyo from '/src/components/Puyo';
 
-import { useGameOver } from "/src/hooks/useGameOver";
+import { useGameOver } from '/src/hooks/useGameOver';
 
 const Game = ({ rows, columns }) => {
   const [gameOver, setGameOver, resetGameOver] = useGameOver();
@@ -13,7 +13,7 @@ const Game = ({ rows, columns }) => {
       {gameOver ? (
         <Menu onClick={start} />
       ) : (
-        <Tetris rows={rows} columns={columns} setGameOver={setGameOver} />
+        <Puyo rows={rows} columns={columns} setGameOver={setGameOver} />
       )}
     </div>
   );
