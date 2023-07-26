@@ -21,11 +21,9 @@ export const PUYOS = {
 
 export const randomPuyo = () => {
   const keys = Object.keys(PUYOS);
-  const index1 = Math.floor(Math.random() * keys.length);
-  const index2 = Math.floor(Math.random() * keys.length);
-  const key1 = keys[index1];
-  const key2 = keys[index2];
-  return { top: PUYOS[key1], bottom: PUYOS[key2] };
+  const index = Math.floor(Math.random() * keys.length);
+  const key = keys[index];
+  return PUYOS[key];
 };
 
 export const rotate = ({ piece, direction }) => {
@@ -70,8 +68,7 @@ export const transferToBoard = ({
   rows,
   shape,
 }) => {
-  const _shape = Array.isArray(shape[0]) ? shape : [shape];
-  _shape.forEach((row, y) => {
+  shape.forEach((row, y) => {
     row.forEach((cell, x) => {
       if (cell) {
         const occupied = isOccupied;
