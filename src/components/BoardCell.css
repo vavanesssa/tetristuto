@@ -15,7 +15,7 @@
   height: 100%;
   left: 0;
   top: 0;
-  background-image: url(./eyes.svg);
+
   background-repeat: no-repeat;
   background-size: 63%;
   background-position: 5px;
@@ -52,3 +52,137 @@
 .puyo__z {
   background-color: rgba(240, 80, 195, 1);
 }
+
+
+
+
+.puyo .eye {
+	position: relative;
+	width: 100%;
+	height: auto;
+  margin: 35% 0 0 0;
+	padding: 0;
+}
+
+
+.puyo  .leftEye, .puyo  .rightEye {
+  width: 30%;
+  height: 50%;
+	border-radius: 12px;
+	-webkit-border-radius: 120px;
+	-moz-border-radius: 120px;
+  border: 2px solid #000000d6
+}
+.puyo .leftPupil, .puyo .rightPupil {
+	width: 8px;
+	height: 8px;
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	background-color: #000000d6;
+}
+.puyo .leftEye {
+	position: absolute;
+  top: 15%;
+  left: 10%;
+	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	animation: blink 1.75s linear 0s infinite;
+	-webkit-animation: blink 1.75s linear 0s infinite;
+}
+.puyo .rightEye {
+	position: absolute;
+
+  left: 55%;
+	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	animation: blink 1.75s linear 0s infinite;
+	-webkit-animation: blink 1.75s linear 0s infinite;
+}
+.puyo .leftPupil {
+	position: absolute;
+	top: 10px;
+	left: 0;
+	animation: movePupil 4s linear 0s infinite;
+	-webkit-animation: movePupil 2s linear 0s infinite;
+}
+.puyo .rightPupil {
+	position: absolute;
+	top: 8px;
+  left: 250px;
+	animation: movePupil 4s linear 0s infinite;
+	-webkit-animation: movePupil 8s linear 0s infinite;
+}
+
+
+@keyframes movePupil {
+	0% {left: 0px;}
+	20% {left: 0px;}
+	40% {left: 10px;}
+	60% {left: 10px;}
+	80% {left: 10px;}
+	100% {left: 0px;}
+}
+@-webkit-keyframes movePupil {
+	0% {left: 0px;}
+	20% {left: 0px;}
+	40% {left: 10px;}
+	60% {left: 10px;}
+	80% {left: 10px;}
+	100% {left: 0px;}
+}
+
+
+@keyframes blink {
+	0% {transform: rotateX(0deg);}
+	10% {transform: rotateX(0deg);}
+	20% {transform: rotateX(0deg);}
+	30% {transform: rotateX(0deg);}
+	40% {transform: rotateX(0deg);}
+	50% {transform: rotateX(90deg);}
+	60% {transform: rotateX(0deg);}
+	70% {transform: rotateX(0deg);}
+	80% {transform: rotateX(0deg);}
+	90% {transform: rotateX(0deg);}
+	100% {transform: rotateX(0deg);}
+}
+@-webkit-keyframes blink {
+	0% {transform: rotateX(0deg);}
+	10% {transform: rotateX(0deg);}
+	20% {transform: rotateX(0deg);}
+	30% {transform: rotateX(0deg);}
+	40% {transform: rotateX(0deg);}
+	50% {transform: rotateX(90deg);}
+	60% {transform: rotateX(0deg);}
+	70% {transform: rotateX(0deg);}
+	80% {transform: rotateX(0deg);}
+	90% {transform: rotateX(0deg);}
+	100% {transform: rotateX(0deg);}
+}
+
+
+.puyo .leftPupil::after {
+    background: none repeat scroll 0 0 #ccc;
+    border-radius: 50%;
+    content: "";
+    height: 30px;
+    left: 38px;
+    position: absolute;
+    top: 35px;
+    width: 30px;
+}
+
+
+.puyo rightPupil::after {
+    background: none repeat scroll 0 0 #ccc;
+    border-radius: 50%;
+    content: "";
+    height: 30px;
+    left: 38px;
+    position: absolute;
+    top: 35px;
+    width: 30px;
+}
+

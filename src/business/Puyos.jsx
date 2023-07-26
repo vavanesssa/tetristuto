@@ -27,35 +27,26 @@ export const randomPuyo = () => {
 };
 
 export const rotate = ({ piece, direction }) => {
-  // Pour une pièce Puyo Puyo, la rotation dépend de la position actuelle de la pièce
   const currentShape = piece[0];
 
   if (direction > 0) {
     if (currentShape[0] === 1 && currentShape[1] === 1) {
-      // Si la pièce est horizontale vers la droite, la rendre verticale vers le haut
       return [[1], [1]];
     } else if (currentShape[0] === 1 && currentShape[1] === 0) {
-      // Si la pièce est verticale vers le haut, la rendre horizontale vers la gauche
       return [[1, 1]];
     } else if (currentShape[0] === 0 && currentShape[1] === 1) {
-      // Si la pièce est horizontale vers la gauche, la rendre verticale vers le bas
       return [[1], [1]];
     } else {
-      // Si la pièce est verticale vers le bas, la rendre horizontale vers la droite
       return [[1, 1]];
     }
   } else {
     if (currentShape[0] === 1 && currentShape[1] === 1) {
-      // Si la pièce est horizontale vers la droite, la rendre verticale vers le bas
       return [[1], [1]];
     } else if (currentShape[0] === 1 && currentShape[1] === 0) {
-      // Si la pièce est verticale vers le haut, la rendre horizontale vers la droite
       return [[1, 1]];
     } else if (currentShape[0] === 0 && currentShape[1] === 1) {
-      // Si la pièce est horizontale vers la gauche, la rendre verticale vers le haut
       return [[1], [1]];
     } else {
-      // Si la pièce est verticale vers le bas, la rendre horizontale vers la gauche
       return [[1, 1]];
     }
   }
