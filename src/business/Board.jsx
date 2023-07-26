@@ -32,6 +32,50 @@ const findDropPosition = ({ board, position, shape }) => {
   return { ...position, row };
 };
 
+function detectGroups(board) {
+  const visited = board.map((row) => row.map(() => false));
+  const rows = board.length;
+  const cols = board[0].length;
+
+  function isValid(i, j) {
+    return i >= 0 && i < rows && j >= 0 && j < cols;
+  }
+
+  function dfs(i, j, color) {
+    if (
+      !isValid(i, j) ||
+      visited[i][j] ||
+      !board[i][j].occupied ||
+      board[i][j].className !== color
+    ) {
+      return [];
+    }
+
+    visited[i][j] = true;
+
+    let cells = [{ i, j }];
+    cells = cells.concat(dfs(i - 1, j, color));
+    cells = cells.concat(dfs(i + 1, j, color));
+    cells = cells.concat(dfs(i, j - 1, color));
+    cells = cells.concat(dfs(i, j + 1, color));
+
+    return cells;
+  }
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      if (board[i][j].occupied && !visited[i][j]) {
+        const cells = dfs(i, j, board[i][j].className);
+        if (cells.length >= 4) {
+          console.log(
+            `Detected a group of ${cells.length} ${board[i][j].className} cells`,
+          );
+        }
+      }
+    }
+  }
+}
+
 export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
   const { puyo, position } = player;
 
@@ -92,6 +136,9 @@ export const nextBoard = ({ board, player, resetPlayer, addLinesCleared }) => {
   if (player.collided || player.isFastDropping) {
     resetPlayer();
   }
+
+  // Detect groups of 4 or more cells of the same color
+  detectGroups(rows);
 
   // Return the next board
   return {
