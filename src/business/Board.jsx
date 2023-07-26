@@ -103,6 +103,7 @@ function detectGroups(board) {
         const cells = dfs(i, j, board[i][j].className);
         if (cells.length >= 4) {
           playSound(explodeAudio);
+          console.log(`Explosion of ${cells.length} puyos of the same color!`);
           cells.forEach((cell) => {
             board[cell.i][cell.j] = { occupied: false, className: '' };
           });
@@ -114,6 +115,8 @@ function detectGroups(board) {
     }
   }
 }
+
+// ... (Rest of the code)
 
 export const nextBoard = ({ board, player, resetPlayer }) => {
   const { puyo, position } = player;
