@@ -5,10 +5,10 @@
 }
 
 .App {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   text-align: center;
   color: #fff;
-  background-color: #406;
+  background-color: #3d2c59;
   height: 100vh;
   padding: 20px;
 }

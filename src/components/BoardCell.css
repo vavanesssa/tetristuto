@@ -20,8 +20,7 @@
 }
 
 .puyo.ghost {
-
-  border: 8px solid white;
+  border: 8px solid #ffffff73;
 }
 
 .puyo.ghost .Sparkle {
