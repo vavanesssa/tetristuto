@@ -92,10 +92,6 @@ function detectGroups(board) {
       if (board[i][j].occupied && !visited[i][j]) {
         const cells = dfs(i, j, board[i][j].className);
         if (cells.length >= 4) {
-          console.log(
-            `Detected a group of ${cells.length} ${board[i][j].className} cells`,
-          );
-
           // Remove the cells from the board
           cells.forEach((cell) => {
             board[cell.i][cell.j] = { occupied: false, className: '' };
@@ -154,6 +150,9 @@ export const nextBoard = ({ board, player, resetPlayer }) => {
 
   // Detect groups of 4 or more cells of the same color
   detectGroups(rows);
+
+  // Apply gravity
+  applyGravity(rows);
 
   // Return the next board
   return {
