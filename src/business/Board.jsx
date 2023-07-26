@@ -2,13 +2,42 @@ import { defaultCell } from '/src/business/Cell';
 import { movePlayer } from '/src/business/PlayerController';
 import { transferToBoard } from '/src/business/Puyos';
 import explodeSfx from '../sounds/explode.mp3';
-const explodeAudio = new Audio(explodeSfx);
-
 import clickSfx from '../sounds/click.mp3';
-const clickAudio = new Audio(clickSfx);
 
-export const playSound = (file) => {
-  file.play();
+// Create a single AudioContext instance to manage all sounds
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+let explodeAudio;
+let clickAudio;
+
+// Function to load audio file as ArrayBuffer
+async function loadAudioFile(url) {
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  return arrayBuffer;
+}
+
+// Load the audio files and convert them to AudioBuffers
+Promise.all([loadAudioFile(explodeSfx), loadAudioFile(clickSfx)])
+  .then(([explodeArrayBuffer, clickArrayBuffer]) => {
+    // Decode audio data to AudioBuffers
+    audioContext.decodeAudioData(explodeArrayBuffer, (buffer) => {
+      explodeAudio = buffer;
+    });
+
+    audioContext.decodeAudioData(clickArrayBuffer, (buffer) => {
+      clickAudio = buffer;
+    });
+  })
+  .catch((error) => {
+    console.error('Error loading audio files:', error);
+  });
+
+export const playSound = (buffer) => {
+  const source = audioContext.createBufferSource();
+  source.buffer = buffer;
+  source.connect(audioContext.destination);
+  source.start(0);
 };
 
 export const buildBoard = ({ rows, columns }) => {
@@ -116,8 +145,6 @@ function detectGroups(board) {
   }
 }
 
-// ... (Rest of the code)
-
 export const nextBoard = ({ board, player, resetPlayer }) => {
   const { puyo, position } = player;
 
@@ -158,6 +185,7 @@ export const nextBoard = ({ board, player, resetPlayer }) => {
 
   // If we collided, reset the player!
   if (player.collided || player.isFastDropping) {
+    playSound(clickAudio);
     resetPlayer();
   }
 

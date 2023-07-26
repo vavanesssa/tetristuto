@@ -12,3 +12,7 @@
   height: 100vh;
   padding: 20px;
 }
+
+body, html, :root {
+  overflow: hidden !important;
+}
