@@ -32,6 +32,31 @@ const findDropPosition = ({ board, position, shape }) => {
   return { ...position, row };
 };
 
+const hasEmptySpaceBelow = (board, i, j) => {
+  return i < board.length - 1 && !board[i + 1][j].occupied;
+};
+
+const movePuyoDown = (board, i, j) => {
+  const temp = board[i][j];
+  board[i][j] = board[i + 1][j];
+  board[i + 1][j] = temp;
+};
+
+const applyGravity = (board) => {
+  let moved;
+  do {
+    moved = false;
+    for (let i = board.length - 2; i >= 0; i--) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j].occupied && hasEmptySpaceBelow(board, i, j)) {
+          movePuyoDown(board, i, j);
+          moved = true;
+        }
+      }
+    }
+  } while (moved);
+};
+
 function detectGroups(board) {
   const visited = board.map((row) => row.map(() => false));
   const rows = board.length;
@@ -75,6 +100,9 @@ function detectGroups(board) {
           cells.forEach((cell) => {
             board[cell.i][cell.j] = { occupied: false, className: '' };
           });
+
+          // Apply gravity
+          applyGravity(board);
         }
       }
     }
