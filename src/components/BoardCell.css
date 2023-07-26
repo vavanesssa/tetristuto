@@ -1,25 +1,25 @@
 .BoardCell {
   width: auto;
-  border-radius: 6px;
+  border-radius: 15px;
   position: relative;
 }
 
 .puyo {
-  border-top: 3px solid rgba(255, 255, 255, 0.1);
-  border-left: 3px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 3px solid rgba(0, 0, 0, 0.1);
-  border-right: 3px solid rgba(0, 0, 0, 0.1);
+
 }
 
 .puyo .Sparkle {
   position: absolute;
   z-index: 10;
-  width: 6px;
-  height: 6px;
-  left: -2px;
-  top: -2px;
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 4px 4px;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-image: url(./eyes.svg);
+  background-repeat: no-repeat;
+  background-size: 63%;
+  background-position: 5px;
+  opacity: 0.4;
 }
 
 .puyo.ghost {
@@ -31,16 +31,16 @@
   opacity: 0;
 }
 
-.puyo__i {
-  background-color: rgba(80, 227, 230, 1);
+.puyo__red {
+  background-color: rgb(233, 44, 82);
 }
-.puyo__j {
+.puyo__blue {
   background-color: rgba(36, 95, 223, 1);
 }
-.puyo__l {
-  background-color: rgba(223, 173, 36, 1);
+.puyo__green {
+  background-color: rgb(36, 223, 61);
 }
-.puyo__o {
+.puyo__yellow {
   background-color: rgba(223, 217, 36, 1);
 }
 .puyo__s {

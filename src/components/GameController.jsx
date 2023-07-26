@@ -41,7 +41,10 @@ const GameController = ({
     } else if (action === Action.Quit) {
       setGameOver(true);
     } else {
-      if (actionIsDrop(action)) pauseDropTime();
+      if (action === Action.SlowDrop) {
+        action = Action.FastDrop; // Change l'action SlowDrop en FastDrop
+        pauseDropTime();
+      }
       if (!dropTime) {
         return;
       }
@@ -50,13 +53,24 @@ const GameController = ({
   };
 
   const handleInput = ({ action }) => {
-    playerController({
-      action,
-      board,
-      player,
-      setPlayer,
-      setGameOver,
-    });
+    if (action === Action.FastDrop) {
+      // Faites descendre la pièce rapidement
+      playerController({
+        action: Action.SlowDrop,
+        board,
+        player,
+        setPlayer,
+        setGameOver,
+      });
+    } else {
+      playerController({
+        action,
+        board,
+        player,
+        setPlayer,
+        setGameOver,
+      });
+    }
   };
 
   const handleBlur = () => {
