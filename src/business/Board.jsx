@@ -1,6 +1,8 @@
 import { defaultCell } from '/src/business/Cell';
 import { movePlayer } from '/src/business/PlayerController';
 import { transferToBoard } from '/src/business/Puyos';
+import { useStore } from '../hooks/useStore';
+
 import explodeSfx from '../sounds/explode.mp3';
 import clickSfx from '../sounds/click.mp3';
 
@@ -148,6 +150,7 @@ function detectGroups(board) {
         const cells = dfs(i, j, board[i][j].className);
         if (cells.length >= 4) {
           playSound(explodeAudio);
+
           console.log(
             `Explosion de ${cells.length} puyos de la même couleur !`,
           );
@@ -178,28 +181,30 @@ export const nextBoard = ({ board, player, resetPlayer }) => {
   const dropPosition = findDropPosition({
     board,
     position,
-    shape: puyo.shape,
+    shape: puyo.top.shape,
   });
 
   // Placer le fantôme
-  const className = `${puyo.className} ${player.isFastDropping ? '' : 'ghost'}`;
+  const className = `${puyo.top.className} ${
+    player.isFastDropping ? '' : 'ghost'
+  }`;
   rows = transferToBoard({
     className,
     isOccupied: player.isFastDropping,
     position: dropPosition,
     rows,
-    shape: puyo.shape,
+    shape: puyo.top.shape,
   });
 
   // Placer la pièce.
   // Si elle a collisionné, marquer les cellules du plateau comme collisionnées
   if (!player.isFastDropping) {
     rows = transferToBoard({
-      className: puyo.className,
+      className: puyo.top.className,
       isOccupied: player.collided,
       position,
       rows,
-      shape: puyo.shape,
+      shape: puyo.top.shape,
     });
   }
 

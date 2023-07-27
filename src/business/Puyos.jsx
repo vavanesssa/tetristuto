@@ -2,21 +2,24 @@ const className = 'puyo';
 
 // Définition des différents types de puyos
 // Chaque type de puyo a une forme et une classe CSS spécifique
+
+const shape = [[1, 1]];
+0;
 export const PUYOS = {
   RED: {
-    shape: [[1, 1]],
+    shape: shape,
     className: `${className} ${className}__red`,
   },
   BLUE: {
-    shape: [[1, 1]],
+    shape: shape,
     className: `${className} ${className}__blue`,
   },
   GREEN: {
-    shape: [[1, 1]],
+    shape: shape,
     className: `${className} ${className}__green`,
   },
   YELLOW: {
-    shape: [[1, 1]],
+    shape: shape,
     className: `${className} ${className}__yellow`,
   },
 };
@@ -25,9 +28,19 @@ export const PUYOS = {
 // Cette fonction est utilisée pour générer un puyo de couleur aléatoire
 export const randomPuyo = () => {
   const keys = Object.keys(PUYOS);
-  const index = Math.floor(Math.random() * keys.length);
-  const key = keys[index];
-  return PUYOS[key];
+  let index1 = Math.floor(Math.random() * keys.length);
+  let index2;
+  do {
+    index2 = Math.floor(Math.random() * keys.length);
+  } while (index1 === index2);
+
+  const key1 = keys[index1];
+  const key2 = keys[index2];
+
+  return {
+    top: PUYOS[key1],
+    bottom: PUYOS[key2],
+  };
 };
 
 // Fonction pour faire tourner un puyo
