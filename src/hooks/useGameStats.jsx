@@ -1,10 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 const buildGameStats = () => ({
   level: 1,
   linesCompleted: 0,
-  linesPerLevel: 10,
-  points: 0
+  points: 0,
 });
 
 export const useGameStats = () => {
@@ -25,7 +24,7 @@ export const useGameStats = () => {
         level,
         linesCompleted,
         linesPerLevel,
-        points
+        points,
       };
     }, []);
   }, []);

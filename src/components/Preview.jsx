@@ -9,7 +9,7 @@ import BoardCell from '/src/components/BoardCell';
 const Preview = ({ puyo, index }) => {
   const { shape, className } = puyo;
 
-  const board = buildBoard({ rows: 4, columns: 4 });
+  const board = buildBoard({ rows: 1, columns: 2 });
 
   const style = { top: `${index * 15}vw` };
 
