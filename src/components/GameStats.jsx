@@ -3,12 +3,14 @@ import './GameStats.css';
 
 const GameStats = ({ gameStats }) => {
   const { level, points, PuyosExploded } = gameStats;
-
+  const [points2, setPoints2] = useState(+window.points || 0); // convert window.points to a number
   const [chrono, setChrono] = useState(0);
   const [start, setStart] = useState(Date.now());
 
   useEffect(() => {
     const interval = setInterval(() => {
+      setPoints2(window.points);
+      console.log(points2);
       setChrono(Date.now() - start);
     }, 10);
 
@@ -31,7 +33,7 @@ const GameStats = ({ gameStats }) => {
   return (
     <ul className="GameStats GameStats__right">
       <li>Points</li>
-      <li className="value">{points}</li>
+      <li className="value">{points2}</li>
       <li>Chrono</li>
       <li className="value">{formatChrono(chrono)}</li>
     </ul>

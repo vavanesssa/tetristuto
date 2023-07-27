@@ -151,6 +151,7 @@ function detectGroups(board) {
           console.log(
             `Explosion de ${cells.length} puyos de la même couleur !`,
           );
+          window.points = +window.points + 1;
           cells.forEach((cell) => {
             board[cell.i][cell.j] = { occupied: false, className: '' };
           });
