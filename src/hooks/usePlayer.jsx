@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+
 import { randomPuyo } from '/src/business/Puyos';
 
 const buildPlayer = (previous) => {

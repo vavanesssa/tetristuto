@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './GameStats.css';
-import { useStore } from '../hooks/useStore';
+
 const GameStats = ({ gameStats }) => {
-  const points = useStore((state) => state.points);
+  const { level, points, PuyosExploded } = gameStats;
 
   const [chrono, setChrono] = useState(0);
   const [start, setStart] = useState(Date.now());
@@ -10,8 +10,8 @@ const GameStats = ({ gameStats }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setChrono(Date.now() - start);
-      console.log(points);
     }, 10);
+
     return () => {
       clearInterval(interval);
     };

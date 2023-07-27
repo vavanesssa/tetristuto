@@ -10,14 +10,14 @@ import { useGameStats } from '/src/hooks/useGameStats';
 import { usePlayer } from '/src/hooks/usePlayer';
 
 const Puyo = ({ rows, columns, setGameOver }) => {
-  const [gameStats, addPoints] = useGameStats();
+  const [gameStats, addLinesCleared] = useGameStats();
   const [player, setPlayer, resetPlayer] = usePlayer();
   const [board, setBoard] = useBoard({
     rows,
     columns,
     player,
     resetPlayer,
-    addPoints,
+    addLinesCleared,
   });
 
   return (
