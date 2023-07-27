@@ -2,6 +2,9 @@ import { hasCollision, isWithinBoard } from '/src/business/Board';
 import { rotate } from '/src/business/Puyos';
 import { Action } from '/src/business/Input';
 
+// Fonction pour tenter une rotation du puyo
+// Cette fonction est utilisée pour effectuer une rotation du puyo si la rotation est valide
+// Une rotation est valide si elle ne provoque pas de collision et si le puyo reste à l'intérieur du plateau de jeu
 const attemptRotation = ({ board, player, setPlayer }) => {
   const shape = rotate({
     piece: player.puyo.shape,
@@ -26,6 +29,9 @@ const attemptRotation = ({ board, player, setPlayer }) => {
   }
 };
 
+// Fonction pour déplacer le joueur
+// Cette fonction est utilisée pour déplacer le puyo sur le plateau de jeu
+// Elle vérifie si le mouvement est valide et met à jour la position du joueur en conséquence
 export const movePlayer = ({ delta, position, shape, board }) => {
   const desiredNextPosition = {
     row: position.row + delta.row,
@@ -53,6 +59,9 @@ export const movePlayer = ({ delta, position, shape, board }) => {
   return { collided: isHit, nextPosition };
 };
 
+// Fonction pour tenter un mouvement
+// Cette fonction est utilisée pour effectuer un mouvement si le mouvement est valide
+// Elle met à jour l'état du joueur en fonction de l'action effectuée
 const attemptMovement = ({ board, action, player, setPlayer, setGameOver }) => {
   const delta = { row: 0, column: 0 };
   let isFastDropping = false;
@@ -87,6 +96,8 @@ const attemptMovement = ({ board, action, player, setPlayer, setGameOver }) => {
   });
 };
 
+// Le contrôleur du joueur
+// Cette fonction est utilisée pour contrôler le mouvement et la rotation du joueur en fonction de l'action effectuée
 export const playerController = ({
   action,
   board,
