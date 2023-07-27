@@ -39,7 +39,7 @@ const Menu = ({ onClick }) => {
               play();
             }}
           >
-            START GAME
+            JOUER
           </button>
         </ParticleEffectButton>
       )}
