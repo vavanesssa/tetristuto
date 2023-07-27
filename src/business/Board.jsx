@@ -4,23 +4,25 @@ import { transferToBoard } from '/src/business/Puyos';
 import explodeSfx from '../sounds/explode.mp3';
 import clickSfx from '../sounds/click.mp3';
 
-// Create a single AudioContext instance to manage all sounds
+// Création d'une seule instance AudioContext pour gérer tous les sons
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 let explodeAudio;
 let clickAudio;
 
-// Function to load audio file as ArrayBuffer
+// Fonction pour charger le fichier audio en tant qu'ArrayBuffer
+// Cette fonction est utilisée pour charger les fichiers audio nécessaires pour les effets sonores du jeu
 async function loadAudioFile(url) {
   const response = await fetch(url);
   const arrayBuffer = await response.arrayBuffer();
   return arrayBuffer;
 }
 
-// Load the audio files and convert them to AudioBuffers
+// Chargement des fichiers audio et conversion en AudioBuffers
+// Cette promesse charge les fichiers audio nécessaires pour les effets sonores du jeu
 Promise.all([loadAudioFile(explodeSfx), loadAudioFile(clickSfx)])
   .then(([explodeArrayBuffer, clickArrayBuffer]) => {
-    // Decode audio data to AudioBuffers
+    // Décode les données audio en AudioBuffers
     audioContext.decodeAudioData(explodeArrayBuffer, (buffer) => {
       explodeAudio = buffer;
     });
@@ -30,9 +32,11 @@ Promise.all([loadAudioFile(explodeSfx), loadAudioFile(clickSfx)])
     });
   })
   .catch((error) => {
-    console.error('Error loading audio files:', error);
+    console.error('Erreur lors du chargement des fichiers audio:', error);
   });
 
+// Fonction pour jouer un son
+// Cette fonction est utilisée pour jouer les effets sonores du jeu
 export const playSound = (buffer) => {
   const source = audioContext.createBufferSource();
   source.buffer = buffer;
@@ -40,6 +44,8 @@ export const playSound = (buffer) => {
   source.start(0);
 };
 
+// Fonction pour construire le plateau de jeu
+// Cette fonction est utilisée pour initialiser le plateau de jeu avec des cellules vides
 export const buildBoard = ({ rows, columns }) => {
   const builtRows = Array.from({ length: rows }, () =>
     Array.from({ length: columns }, () => ({ ...defaultCell })),
@@ -51,6 +57,8 @@ export const buildBoard = ({ rows, columns }) => {
   };
 };
 
+// Fonction pour trouver la position de chute
+// Cette fonction est utilisée pour trouver la position où le puyo doit tomber
 const findDropPosition = ({ board, position, shape }) => {
   let max = board.size.rows - position.row + 1;
   let row = 0;
@@ -70,10 +78,14 @@ const findDropPosition = ({ board, position, shape }) => {
   return { ...position, row };
 };
 
+// Fonction pour vérifier s'il y a un espace vide en dessous
+// Cette fonction est utilisée pour vérifier si une cellule a un espace vide en dessous d'elle
 const hasEmptySpaceBelow = (board, i, j) => {
   return i < board.length - 1 && !board[i + 1][j].occupied;
 };
 
+// Fonction pour déplacer le puyo vers le bas
+// Cette fonction est utilisée pour déplacer un puyo vers le bas sur le plateau de jeu
 const movePuyoDown = (board, i, j) => {
   const temp = board[i][j];
   board[i][j] = board[i + 1][j];
@@ -81,6 +93,8 @@ const movePuyoDown = (board, i, j) => {
   playSound(clickAudio);
 };
 
+// Fonction pour appliquer la gravité
+// Cette fonction est utilisée pour appliquer la gravité sur le plateau de jeu, en déplaçant les puyos vers le bas tant qu'il y a un espace vide en dessous d'eux
 const applyGravity = (board) => {
   let moved;
   do {
@@ -96,6 +110,8 @@ const applyGravity = (board) => {
   } while (moved);
 };
 
+// Fonction pour détecter les groupes
+// Cette fonction est utilisée pour détecter les groupes de 4 ou plus puyos de la même couleur
 function detectGroups(board) {
   const visited = board.map((row) => row.map(() => false));
   const rows = board.length;
@@ -132,12 +148,14 @@ function detectGroups(board) {
         const cells = dfs(i, j, board[i][j].className);
         if (cells.length >= 4) {
           playSound(explodeAudio);
-          console.log(`Explosion of ${cells.length} puyos of the same color!`);
+          console.log(
+            `Explosion de ${cells.length} puyos de la même couleur !`,
+          );
           cells.forEach((cell) => {
             board[cell.i][cell.j] = { occupied: false, className: '' };
           });
 
-          // Apply gravity
+          // Appliquer la gravité
           applyGravity(board);
         }
       }
@@ -145,23 +163,25 @@ function detectGroups(board) {
   }
 }
 
+// Fonction pour obtenir le prochain plateau
+// Cette fonction est utilisée pour obtenir le prochain état du plateau de jeu après un mouvement du joueur
 export const nextBoard = ({ board, player, resetPlayer }) => {
   const { puyo, position } = player;
 
-  // Copy and clear spaces used by pieces that
-  // hadn't collided and occupied spaces permanently
+  // Copier et effacer les espaces utilisés par les pièces qui
+  // n'avaient pas encore collisionné et occupé les espaces de manière permanente
   let rows = board.rows.map((row) =>
     row.map((cell) => (cell.occupied ? cell : { ...defaultCell })),
   );
 
-  // Drop position
+  // Position de chute
   const dropPosition = findDropPosition({
     board,
     position,
     shape: puyo.shape,
   });
 
-  // Place ghost
+  // Placer le fantôme
   const className = `${puyo.className} ${player.isFastDropping ? '' : 'ghost'}`;
   rows = transferToBoard({
     className,
@@ -171,8 +191,8 @@ export const nextBoard = ({ board, player, resetPlayer }) => {
     shape: puyo.shape,
   });
 
-  // Place the piece.
-  // If it collided, mark the board cells as collided
+  // Placer la pièce.
+  // Si elle a collisionné, marquer les cellules du plateau comme collisionnées
   if (!player.isFastDropping) {
     rows = transferToBoard({
       className: puyo.className,
@@ -183,25 +203,27 @@ export const nextBoard = ({ board, player, resetPlayer }) => {
     });
   }
 
-  // If we collided, reset the player!
+  // Si nous avons collisionné, réinitialiser le joueur !
   if (player.collided || player.isFastDropping) {
     playSound(clickAudio);
     resetPlayer();
   }
 
-  // Detect groups of 4 or more cells of the same color
+  // Détecter les groupes de 4 ou plus cellules de la même couleur
   detectGroups(rows);
 
-  // Apply gravity
+  // Appliquer la gravité
   applyGravity(rows);
 
-  // Return the next board
+  // Retourner le prochain plateau
   return {
     rows,
     size: { ...board.size },
   };
 };
 
+// Fonction pour vérifier s'il y a une collision
+// Cette fonction est utilisée pour vérifier si un mouvement du joueur entraînerait une collision avec une autre pièce ou avec les limites du plateau de jeu
 export const hasCollision = ({ board, position, shape }) => {
   for (let y = 0; y < shape.length; y++) {
     const row = y + position.row;
@@ -232,6 +254,8 @@ export const hasCollision = ({ board, position, shape }) => {
   return false;
 };
 
+// Fonction pour vérifier si on est dans le plateau
+// Cette fonction est utilisée pour vérifier si une pièce est entièrement à l'intérieur des limites du plateau de jeu
 export const isWithinBoard = ({ board, position, shape }) => {
   for (let y = 0; y < shape.length; y++) {
     const row = y + position.row;
