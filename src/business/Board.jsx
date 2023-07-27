@@ -3,8 +3,6 @@ import { movePlayer } from '/src/business/PlayerController';
 import { transferToBoard } from '/src/business/Puyos';
 import explodeSfx from '../sounds/explode.mp3';
 import clickSfx from '../sounds/click.mp3';
-import Counter from './hooks/useStore';
-const { count, inc } = useStore();
 
 // Création d'une seule instance AudioContext pour gérer tous les sons
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -36,8 +34,6 @@ Promise.all([loadAudioFile(explodeSfx), loadAudioFile(clickSfx)])
   .catch((error) => {
     console.error('Erreur lors du chargement des fichiers audio:', error);
   });
-
-export const addPoints = () => {};
 
 // Fonction pour jouer un son
 // Cette fonction est utilisée pour jouer les effets sonores du jeu
@@ -94,7 +90,6 @@ const movePuyoDown = (board, i, j) => {
   const temp = board[i][j];
   board[i][j] = board[i + 1][j];
   board[i + 1][j] = temp;
-
   playSound(clickAudio);
 };
 
